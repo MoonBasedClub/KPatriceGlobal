@@ -17,8 +17,7 @@ export const site = {
   url: "https://kpatriceglobal.com",
 
   contact: {
-    // TODO: confirm the real address from the live site.
-    email: "hello@kpatriceglobal.com",
+    email: "keisha@kpatrice.com",
     phone: "",
     location: "",
   },

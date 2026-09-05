@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/content/site";
+import { FadeIn } from "@/components/motion";
 
 export const metadata = { title: "Book a consultation" };
 
@@ -8,8 +9,10 @@ export default function BookPage() {
 
   return (
     <section className="container-page py-20">
-      <p className="eyebrow">Scheduling</p>
-      <h1 className="mt-3 text-4xl font-semibold sm:text-5xl">Book a consultation</h1>
+      <FadeIn>
+        <p className="eyebrow">Scheduling</p>
+        <h1 className="mt-3 text-4xl font-semibold sm:text-5xl">Book a consultation</h1>
+      </FadeIn>
       <p className="mt-6 max-w-xl text-lg text-muted">
         Pick a time that works for you. If nothing fits, send a note through the{" "}
         <Link href="/contact" className="underline underline-offset-4">contact form</Link> and

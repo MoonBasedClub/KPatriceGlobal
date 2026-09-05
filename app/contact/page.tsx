@@ -1,16 +1,19 @@
 import { ContactForm } from "@/components/ContactForm";
 import { site } from "@/content/site";
+import { FadeIn } from "@/components/motion";
 
 export const metadata = { title: "Contact" };
 
 export default function ContactPage() {
   return (
     <section className="container-page py-20">
-      <p className="eyebrow">Contact</p>
-      <h1 className="mt-3 text-4xl font-semibold sm:text-5xl">Get in touch</h1>
-      <p className="mt-6 max-w-xl text-lg text-muted">
-        Tell us a little about the work and we&rsquo;ll come back to you within two business days.
-      </p>
+      <FadeIn>
+        <p className="eyebrow">Contact</p>
+        <h1 className="mt-3 text-4xl font-semibold sm:text-5xl">Get in touch</h1>
+        <p className="mt-6 max-w-xl text-lg text-muted">
+          Tell us a little about the work and we&rsquo;ll come back to you within two business days.
+        </p>
+      </FadeIn>
 
       <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_18rem]">
         <ContactForm />
