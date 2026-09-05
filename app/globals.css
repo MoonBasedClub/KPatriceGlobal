@@ -36,6 +36,6 @@
     @apply mb-1.5 block text-sm font-medium text-ink;
   }
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.16em] text-brand-accent;
+    @apply text-xs font-semibold uppercase tracking-[0.16em] text-brand-orange;
   }
 }

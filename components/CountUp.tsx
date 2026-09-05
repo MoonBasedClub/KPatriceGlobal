@@ -18,10 +18,18 @@ export function CountUp({ value, className }: { value: string; className?: strin
   const target = match ? Number(match[1]) : null;
   const suffix = match ? match[2] : "";
 
-  const [display, setDisplay] = useState(target === null || reduced ? value : `0${suffix}`);
+  // Initial state deliberately ignores `reduced`: it is unknown on the server,
+  // so depending on it here would make the first client render disagree.
+  const [display, setDisplay] = useState(target === null ? value : `0${suffix}`);
 
   useEffect(() => {
-    if (target === null || reduced || !inView) return;
+    if (target === null) return;
+    // Reduced motion: show the final figure without counting.
+    if (reduced) {
+      setDisplay(value);
+      return;
+    }
+    if (!inView) return;
 
     const controls = animate(0, target, {
       duration: 1.2,
@@ -29,7 +37,7 @@ export function CountUp({ value, className }: { value: string; className?: strin
       onUpdate: (latest) => setDisplay(`${Math.round(latest)}${suffix}`),
     });
     return () => controls.stop();
-  }, [inView, target, suffix, reduced]);
+  }, [inView, target, suffix, reduced, value]);
 
   return (
     <p ref={ref} className={className}>
