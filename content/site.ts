@@ -13,7 +13,7 @@ export const site = {
   url: "https://kpatriceglobal.com",
 
   logo: {
-    src: "/images/logo.jpg",
+    src: "/images/logo.png",
     alt: "Kpatrice Global Solutions — Connecting People to Resources",
   },
 

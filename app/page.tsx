@@ -4,12 +4,15 @@ import { Reveal, HeroReveal, Stagger, StaggerItem, HoverLift } from "@/component
 import { PartnerCarousel } from "@/components/PartnerCarousel";
 import { ContactForm } from "@/components/ContactForm";
 
-/** Scheduling link, when configured; otherwise CTAs scroll to the contact form. */
-const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || "";
+/**
+ * Calendly link, when configured. The hero CTAs open it directly; without it
+ * they scroll to the contact form, which reveals the calendar on submit.
+ */
+const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || "";
 
 function Cta({ label, className }: { label: string; className: string }) {
-  const href = bookingUrl || "#contact";
-  const external = Boolean(bookingUrl);
+  const href = calendlyUrl || "#contact";
+  const external = Boolean(calendlyUrl);
   return (
     <a
       href={href}

@@ -2,8 +2,16 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { CalendlyEmbed } from "@/components/CalendlyEmbed";
 
-type Status = { kind: "idle" | "sending" } | { kind: "ok" | "error"; message: string };
+type Submitted = { name: string; email: string };
+type Status =
+  | { kind: "idle" | "sending" }
+  | { kind: "error"; message: string }
+  | { kind: "ok"; message: string; submitted: Submitted };
+
+/** Set in the Vercel project; empty means "no calendar configured". */
+const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
@@ -12,13 +20,14 @@ export function ContactForm() {
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
+    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
     setStatus({ kind: "sending" });
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        body: JSON.stringify(data),
       });
       const body = (await response.json()) as { error?: string };
 
@@ -27,10 +36,35 @@ export function ContactForm() {
         return;
       }
       form.reset();
-      setStatus({ kind: "ok", message: "Thanks — your message is on its way." });
+      setStatus({
+        kind: "ok",
+        message: CALENDLY_URL
+          ? "Thanks — now pick a time that works for you."
+          : "Thanks — your message is on its way.",
+        submitted: { name: data.name ?? "", email: data.email ?? "" },
+      });
     } catch {
       setStatus({ kind: "error", message: "Network error. Please try again." });
     }
+  }
+
+  // Message sent and a calendar is configured: hand the visitor straight to it,
+  // which is how the current GoHighLevel site behaves.
+  if (status.kind === "ok" && CALENDLY_URL) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: reduced ? 0 : 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: reduced ? 0.2 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <p role="status" className="text-sm font-medium text-brand">
+          {status.message}
+        </p>
+        <div className="mt-4">
+          <CalendlyEmbed url={CALENDLY_URL} prefill={status.submitted} />
+        </div>
+      </motion.div>
+    );
   }
 
   return (
@@ -43,11 +77,11 @@ export function ContactForm() {
 
       <div>
         <label className="label" htmlFor="name">Name</label>
-        <input className="field" id="name" name="name" required maxLength={120} />
+        <input className="field" id="name" name="name" required maxLength={120} autoComplete="name" />
       </div>
       <div>
         <label className="label" htmlFor="email">Email</label>
-        <input className="field" id="email" name="email" type="email" required maxLength={200} />
+        <input className="field" id="email" name="email" type="email" required maxLength={200} autoComplete="email" />
       </div>
       <div>
         <label className="label" htmlFor="message">How can we help?</label>
@@ -62,7 +96,7 @@ export function ContactForm() {
         whileTap={reduced ? undefined : { scale: 0.98 }}
         transition={{ duration: 0.15 }}
       >
-        {status.kind === "sending" ? "Sending…" : "Send message"}
+        {status.kind === "sending" ? "Sending…" : "Send"}
       </motion.button>
 
       <AnimatePresence mode="wait">
