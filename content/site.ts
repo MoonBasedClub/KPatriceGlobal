@@ -33,10 +33,12 @@ export const site = {
     { label: "LinkedIn", href: "" },
   ] as { label: string; href: string }[],
 
+  // Root-relative so these still resolve from the booking page, where the
+  // homepage's sections do not exist.
   nav: [
-    { label: "Services", href: "#services" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: "Services", href: "/#services" },
+    { label: "About", href: "/#about" },
+    { label: "Contact", href: "/#contact" },
   ],
 
   hero: {
@@ -59,6 +61,14 @@ export const site = {
      */
     calendarId: process.env.NEXT_PUBLIC_BOOKING_CALENDAR_ID || "O56KTncw7NcR9Q5uzM6n",
     calendarName: "Keisha Smith's Personal Calendar",
+    host: {
+      name: "Keisha P Smith",
+      photo: {
+        // 200x200 is the original GoHighLevel holds; sized on the page to stay sharp.
+        src: "/images/keisha-smith.jpg",
+        alt: "Keisha P Smith",
+      },
+    },
     heading: "Book an appointment",
     body: "Welcome to my scheduling page. Please follow the instructions to add an event to my calendar.",
   },
