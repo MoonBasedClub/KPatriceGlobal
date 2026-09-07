@@ -1,38 +1,26 @@
-# Image slots
+# Images
 
-Every file here is a **generated solid-colour placeholder**. Replace each one
-with the real asset, keeping the filename, and the site picks it up with no code
-change. Keep the `.png` extension (or change the path in `content/site.ts` if you
-save as `.jpg`).
+All assets here were downloaded from the live site at kpatriceglobal.com and are
+the real ones, not placeholders.
 
-| File | Used on | Supplied? | Suggested size |
-| --- | --- | --- | --- |
-| `logo.png` | Header + footer | **You sent it — needs saving here** | ~900×450, transparent background |
-| `hero-professional.png` | Home hero | **You sent it** (woman with tablet) | ≥1600px wide |
-| `about-team.png` | About page | **You sent it** (three people at table) | ≥1600px wide |
-| `services-workforce.png` | Services + home card | **You sent it** (two people, machine shop) | ≥1600px wide |
-| `services-consulting.png` | Services + home card | Reuse the meeting-room photo, or send another | ≥1600px wide |
-| `partners/palm-beach-county-schools.png` | Partner carousel | **You sent it** | ~360px wide, transparent |
+| File | Used in |
+| --- | --- |
+| `logo.jpg` | Header, footer, favicon |
+| `hero.jpg` | Hero section |
+| `who-we-work-with.jpg` | "Who We Work Best With" |
+| `our-approach.webp` | "Our Approach" |
+| `service-strategic-planning.jpg` | Services — Strategic Planning |
+| `service-operational-efficiency.webp` | Services — Operational Efficiency |
+| `service-business-diagnostics.webp` | Services — Business Diagnostics |
+| `about.jpg` | About Us |
+| `partners/*` | The logo marquee (5 logos) |
 
-## Still needed
+Extensions reflect the actual encoding: the live site serves several of these
+WebP-converted through its CDN regardless of the original filename.
 
-- **A favicon** — `app/icon.png` (512×512, the logo mark alone, no wordmark).
-- **The rest of the partner carousel logos.** Only Palm Beach County Schools has
-  been supplied. Drop each into `partners/` and add a row to the `partners`
-  array in `content/site.ts`.
-- **Any imagery from the lower half of the live site**, which could not be
-  retrieved (the build environment cannot reach kpatriceglobal.com).
+## Nice to have
 
-## Adding a partner logo
-
-```ts
-// content/site.ts
-partners: [
-  { name: "The School District of Palm Beach County",
-    src: "/images/partners/palm-beach-county-schools.png", href: "" },
-  { name: "Next Partner",
-    src: "/images/partners/next-partner.png", href: "https://example.org" },
-],
-```
-
-The carousel sizes itself from the number of logos, so no other change is needed.
+A transparent-background version of the logo. The current `logo.jpg` has a baked-in
+white rectangle, which is invisible against the white header but would show if a
+section behind it ever became coloured. A PNG or SVG with transparency would drop in
+as `logo.png` / `logo.svg` with a one-line change in `content/site.ts`.

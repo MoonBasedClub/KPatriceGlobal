@@ -1,118 +1,163 @@
 /**
  * Single source of truth for all site copy and imagery.
  *
- * The company name, tagline and brand colors come from the official logo.
- * Strings still marked `TODO` are placeholders: the live site at
- * kpatriceglobal.com could not be read from the build environment (blocked by
- * the network egress policy), so body copy has not been transcribed from it.
+ * Transcribed from the live site at kpatriceglobal.com (a GoHighLevel/
+ * LeadConnector funnel) along with its images, palette and section order.
  */
 
 export const site = {
-  name: "KPatrice Global Solutions",
-  shortName: "KPatrice Global",
-  tagline: "Connecting People to Resources",
+  name: "Kpatrice Global Solutions",
+  tagline: "Strategic Operations & Growth Advisory",
   description:
-    "KPatrice Global Solutions connects people to the resources, partners, and programs they need — working with school districts, agencies, and employers to close the gap between opportunity and access.",
+    "Kpatrice Global Solutions serves as a Strategic Operations & Growth Advisor to small and mid-sized businesses and workforce development organizations navigating growth and change.",
   url: "https://kpatriceglobal.com",
 
   logo: {
-    src: "/images/logo.png",
-    alt: "KPatrice Global Solutions — Connecting People to Resources",
+    src: "/images/logo.jpg",
+    alt: "Kpatrice Global Solutions — Connecting People to Resources",
   },
 
   contact: {
-    email: "keisha@kpatrice.com",
-    // TODO: add phone and address if they appear on the live site.
-    phone: "",
-    location: "",
+    // Publicly listed on the live site.
+    email: "info@kpatrice.com",
+    phone: "561.507.0240",
+    // Contact-form submissions are delivered here (see CONTACT_TO_EMAIL).
+    formRecipient: "keisha@kpatrice.com",
   },
 
   social: [
-    // TODO: confirm real profile URLs.
+    { label: "Facebook", href: "" }, // TODO: live site links these icons to the homepage; add real URLs.
+    { label: "LinkedIn", href: "" },
   ] as { label: string; href: string }[],
 
   nav: [
-    { label: "About", href: "/about" },
-    { label: "Services", href: "/services" },
-    { label: "Book", href: "/book" },
-    { label: "Contact", href: "/contact" },
+    { label: "Services", href: "#services" },
+    { label: "About", href: "#about" },
+    { label: "Contact", href: "#contact" },
   ],
 
   hero: {
-    // TODO: replace with the real headline from the live site.
-    heading: "Connecting people to resources.",
-    body: "We bridge the distance between the people who need opportunity and the organizations built to provide it — in workforce development, education, and community programs.",
-    primaryCta: { label: "Book a consultation", href: "/book" },
-    secondaryCta: { label: "What we do", href: "/services" },
-    image: {
-      src: "/images/hero-professional.png",
-      alt: "A professional reviewing work on a tablet in a bright office",
-    },
+    eyebrow: "Strategic Operations & Growth Advisory",
+    heading: "For organizations ready to execute - not just plan.",
+    body: "Stop reacting to growth challenges. Start aligning strategy, systems, and partnerships so your organization can move forward with clarity and confidence.",
+    primaryCta: { label: "Schedule a Strategy Clarity Call", href: "#contact" },
+    image: { src: "/images/hero.jpg", alt: "A professional reviewing work on a tablet" },
   },
 
-  // TODO: replace with the real service lines from the live site.
-  services: [
-    {
-      title: "Workforce development",
-      body: "Connecting job seekers with training, credentials, and employers who are actively hiring.",
-      image: {
-        src: "/images/services-workforce.png",
-        alt: "Two colleagues reviewing work together on a manufacturing floor",
-      },
-    },
-    {
-      title: "Consulting & advisory",
-      body: "Program design and strategy for agencies and districts building services that have to reach real people.",
-      image: {
-        src: "/images/services-consulting.png",
-        alt: "Three professionals in discussion around a conference table",
-      },
-    },
-    {
-      title: "Community partnerships",
-      body: "Building the relationships between employers, educators, and community organizations that make programs work.",
-      image: null,
-    },
-    {
-      title: "Training & facilitation",
-      body: "Workshops and facilitation that leave teams with something they can actually run.",
-      image: null,
-    },
-  ],
+  bookingCta: { label: "Book a Free Consultation!", href: "#contact" },
 
-  about: {
-    heading: "About KPatrice Global Solutions",
-    // TODO: replace with the real company story and founder bio.
-    paragraphs: [
-      "KPatrice Global Solutions exists to close the distance between people and the resources meant to serve them.",
-      "We work with school districts, public agencies, employers, and community organizations — the institutions holding the resources — and with the people trying to reach them, making sure those two sides actually meet.",
-      "The work spans workforce development, program strategy, and the partnerships that hold a community's services together.",
+  workBestWith: {
+    heading: "Who We Work Best With",
+    items: [
+      "Growing organizations",
+      "Leadership teams ready to make decisions",
+      "Workforce organizations strengthening employer partnerships",
+      "Businesses ready to professionalize operations",
     ],
-    image: {
-      src: "/images/about-team.png",
-      alt: "Colleagues in conversation in a meeting room",
-    },
+    image: { src: "/images/who-we-work-with.jpg", alt: "Colleagues collaborating" },
   },
 
-  /**
-   * Partner / client logos for the carousel.
-   * Drop each file in public/images/partners/ and add a row here.
-   */
+  approach: {
+    heading: "Our Approach",
+    items: [
+      "Diagnose before prescribing",
+      "Align leadership before optimizing systems",
+      "Prioritize execution over perfection",
+      "Design structures that last beyond the engagement",
+    ],
+    image: { src: "/images/our-approach.webp", alt: "A team working through a plan" },
+  },
+
+  /** Logos in the marquee, in the order the live site shows them. */
   partners: [
     {
-      name: "The School District of Palm Beach County",
-      src: "/images/partners/palm-beach-county-schools.png",
-      href: "",
+      name: "Miami-Dade County Public Schools",
+      src: "/images/partners/miami-dade-public-schools.jpg",
     },
-    // TODO: add the remaining partner logos from the live site's carousel.
-  ] as { name: string; src: string; href: string }[],
+    { name: "MWBE Certified — Minority and Women-Owned Business Enterprise",
+      src: "/images/partners/mwbe-certified.webp" },
+    { name: "The School District of Palm Beach County",
+      src: "/images/partners/palm-beach-county-schools.webp" },
+    { name: "Broward County Public Schools",
+      src: "/images/partners/broward-county-public-schools.jpg" },
+    { name: "Florida Department of Management Services — Supplier Diversity",
+      src: "/images/partners/florida-dms-supplier-diversity.webp" },
+  ] as { name: string; src: string }[],
 
-  // TODO: replace with real figures, or delete this section.
-  proof: [
-    { stat: "15+", label: "years connecting people to resources" },
-    { stat: "40+", label: "partner organizations" },
-    { stat: "6", label: "sectors served" },
-  ],
+  services: {
+    heading: "Our Services",
+    intro:
+      "Our consultancy services are designed to help your business operate at its highest potential. Whether you’re scaling, restructuring, or simply stuck we provide the tools, frameworks, and insights to help you move forward with clarity and confidence.",
+    items: [
+      {
+        title: "Strategic Planning",
+        subtitle: "Turn Your Vision into Action.",
+        body: "We help you define your long-term goals and build customized strategies that lead to measurable outcomes. Whether you’re entering a new market, launching a new offer, or revisiting your mission we bring structure to your strategy.",
+        includes: [
+          "Vision + Goal Mapping",
+          "90-Day Action Plans",
+          "Strategic Roadmapping",
+          "Planning Retreat Facilitation",
+        ],
+        image: { src: "/images/service-strategic-planning.jpg", alt: "Strategic planning session" },
+      },
+      {
+        title: "Operational Efficiency",
+        subtitle: "Work Smarter. Scale Faster.",
+        body: "We assess your current workflows and implement improvements that reduce waste and increase productivity so your team can focus on what matters.",
+        includes: [
+          "Workflow Audits",
+          "Process Streamlining",
+          "SOP (Standard Operating Procedure) Creation",
+          "Automation & Tool Integration",
+        ],
+        image: {
+          src: "/images/service-operational-efficiency.webp",
+          alt: "A team reviewing work together in an office",
+        },
+      },
+      {
+        title: "Business Diagnostics",
+        subtitle: "Get a Clear Picture of What’s Working—And What’s Not.",
+        body: "Before making big decisions, we help you assess your performance across people, process, and profit. Our diagnostic tools identify pain points and growth blockers.",
+        includes: [
+          "Business Health Assessment",
+          "Efficiency Scorecard",
+          "Recommendations Report",
+          "Priority Action Plan",
+        ],
+        image: {
+          src: "/images/service-business-diagnostics.webp",
+          alt: "Reviewing business performance data",
+        },
+      },
+    ],
+  },
+
+  mission: {
+    heading: "Our Mission",
+    body: "To empower businesses by creating clarity, building capacity, and eliminating inefficiency one strategic solution at a time.",
+  },
+
+  about: {
+    heading: "About Us",
+    lead: "Growth exposes what’s misaligned.",
+    paragraphs: [
+      "As organizations scale, cracks appear unclear priorities, overextended leaders, fragmented systems, and partnerships that don’t deliver their full value.",
+      "Kpatrice Global Solutions serves as a Strategic Operations & Growth Advisor to small and mid-sized businesses and workforce development organizations navigating growth and change.",
+      "We work closely with leadership teams to diagnose execution challenges, align strategy with operations, and build systems that support sustainable progress.",
+      "This work is not about adding more tools, meetings, or initiatives.",
+      "It’s about clarity, structure, and disciplined execution.",
+    ],
+    image: { src: "/images/about.jpg", alt: "Kpatrice Global Solutions at work" },
+  },
+
+  contactSection: {
+    heading: "Contact Us",
+    formHeading: "SEND US A MESSAGE",
+  },
+
+  copyright: "Copyright © 2024 Kpatrice Global Solutions. All rights reserved",
 };
 
 export type Site = typeof site;

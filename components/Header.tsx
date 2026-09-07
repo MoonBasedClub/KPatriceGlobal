@@ -10,23 +10,32 @@ export function Header() {
           <Image
             src={site.logo.src}
             alt={site.logo.alt}
-            width={260}
-            height={130}
+            width={900}
+            height={450}
             priority
             className="h-12 w-auto"
           />
         </Link>
-        <nav className="flex items-center gap-1 text-sm">
-          {site.nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-md px-3 py-2 text-muted transition-colors hover:bg-surface hover:text-ink"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+
+        <div className="flex items-center gap-1">
+          <nav className="hidden items-center gap-1 text-sm sm:flex">
+            {site.nav.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="rounded-md px-3 py-2 text-muted transition-colors hover:bg-surface hover:text-ink"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+          <a
+            href={`tel:+1${site.contact.phone.replace(/\D/g, "")}`}
+            className="btn-primary ml-2 px-4 py-2 text-xs uppercase tracking-wide"
+          >
+            Call Now
+          </a>
+        </div>
       </div>
     </header>
   );

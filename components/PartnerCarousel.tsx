@@ -5,10 +5,10 @@ import { useRef, useState } from "react";
 import { motion, useAnimationFrame, useMotionValue, useReducedMotion } from "motion/react";
 import { useMounted } from "@/lib/useMounted";
 
-type Partner = { name: string; src: string; href: string };
+type Partner = { name: string; src: string };
 
-/** Pixels per second the marquee travels. */
-const SPEED = 45;
+/** Seconds for one full cycle — matches the live site's 30.4s marquee. */
+const CYCLE_SECONDS = 30.4;
 
 /**
  * Infinite partner-logo marquee.
@@ -34,7 +34,8 @@ export function PartnerCarousel({ partners }: { partners: Partner[] }) {
     // scrollWidth covers both copies; one copy is half of it.
     const copyWidth = trackRef.current.scrollWidth / 2;
     if (copyWidth === 0) return;
-    const next = x.get() - (SPEED * delta) / 1000;
+    const speed = copyWidth / CYCLE_SECONDS; // px per second
+    const next = x.get() - (speed * delta) / 1000;
     x.set(next <= -copyWidth ? next + copyWidth : next);
   });
 
@@ -45,9 +46,9 @@ export function PartnerCarousel({ partners }: { partners: Partner[] }) {
       <Image
         src={partner.src}
         alt={hidden ? "" : partner.name}
-        width={180}
-        height={90}
-        className="h-16 w-auto object-contain opacity-70 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0"
+        width={240}
+        height={120}
+        className="h-24 w-auto object-contain"
       />
     );
     return (
@@ -56,13 +57,7 @@ export function PartnerCarousel({ partners }: { partners: Partner[] }) {
         className="flex shrink-0 items-center justify-center px-10"
         aria-hidden={hidden || undefined}
       >
-        {partner.href ? (
-          <a href={partner.href} target="_blank" rel="noopener noreferrer" aria-label={partner.name}>
-            {img}
-          </a>
-        ) : (
-          img
-        )}
+        {img}
       </li>
     );
   };

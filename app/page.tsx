@@ -1,41 +1,64 @@
 import Image from "next/image";
-import Link from "next/link";
 import { site } from "@/content/site";
-import { FadeIn, Stagger, StaggerItem, HeroReveal, HoverLift } from "@/components/motion";
-import { CountUp } from "@/components/CountUp";
+import { Reveal, HeroReveal, Stagger, StaggerItem, HoverLift } from "@/components/motion";
 import { PartnerCarousel } from "@/components/PartnerCarousel";
+import { ContactForm } from "@/components/ContactForm";
+
+/** Scheduling link, when configured; otherwise CTAs scroll to the contact form. */
+const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || "";
+
+function Cta({ label, className }: { label: string; className: string }) {
+  const href = bookingUrl || "#contact";
+  const external = Boolean(bookingUrl);
+  return (
+    <a
+      href={href}
+      className={className}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {label}
+    </a>
+  );
+}
+
+function Bullets({ items, direction }: { items: string[]; direction: "left" | "right" }) {
+  return (
+    <Stagger as="ul" className="mt-8 space-y-4">
+      {items.map((item) => (
+        <StaggerItem as="li" key={item} direction={direction} className="flex gap-3">
+          <span aria-hidden className="mt-2 h-2 w-2 shrink-0 rounded-full bg-brand" />
+          <span className="text-lg text-muted">{item}</span>
+        </StaggerItem>
+      ))}
+    </Stagger>
+  );
+}
 
 export default function HomePage() {
   return (
     <>
+      {/* Hero */}
       <section className="border-b border-line bg-surface">
         <div className="container-page grid items-center gap-12 py-20 lg:grid-cols-2 lg:py-28">
           <div>
-            <HeroReveal>
-              <p className="eyebrow">{site.tagline}</p>
+            <HeroReveal direction="left">
+              <p className="eyebrow">{site.hero.eyebrow}</p>
             </HeroReveal>
-            <HeroReveal delay={0.1}>
-              <h1 className="mt-4 text-4xl font-semibold sm:text-5xl xl:text-6xl">
-                {site.hero.heading}
-              </h1>
+            <HeroReveal direction="left" delay={0.15}>
+              <h1 className="mt-4 text-4xl font-semibold sm:text-5xl">{site.hero.heading}</h1>
             </HeroReveal>
-            <HeroReveal delay={0.2}>
+            <HeroReveal direction="left" delay={0.3}>
               <p className="mt-6 max-w-xl text-lg text-muted">{site.hero.body}</p>
             </HeroReveal>
-            <HeroReveal delay={0.3}>
+            <HeroReveal direction="zoom" delay={0.45}>
               <div className="mt-10 flex flex-wrap gap-3">
-                <Link href={site.hero.primaryCta.href} className="btn-primary">
-                  {site.hero.primaryCta.label}
-                </Link>
-                <Link href={site.hero.secondaryCta.href} className="btn-secondary">
-                  {site.hero.secondaryCta.label}
-                </Link>
+                <Cta label={site.hero.primaryCta.label} className="btn-primary" />
+                <Cta label={site.bookingCta.label} className="btn-secondary" />
               </div>
             </HeroReveal>
           </div>
-
-          <HeroReveal delay={0.15}>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+          <HeroReveal direction="right" delay={0.2}>
+            <div className="relative aspect-[3/2] overflow-hidden rounded-xl">
               <Image
                 src={site.hero.image.src}
                 alt={site.hero.image.alt}
@@ -49,85 +72,172 @@ export default function HomePage() {
         </div>
       </section>
 
-      {site.partners.length > 0 && (
-        <section className="border-b border-line py-14">
-          <FadeIn>
-            <p className="container-page text-center text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-              Trusted by the organizations we serve
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1} className="mt-10">
-            <PartnerCarousel partners={site.partners} />
-          </FadeIn>
-        </section>
-      )}
+      {/* Who we work best with */}
+      <section className="container-page grid items-center gap-12 py-20 lg:grid-cols-2">
+        <Reveal direction="left">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+            <Image
+              src={site.workBestWith.image.src}
+              alt={site.workBestWith.image.alt}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+        </Reveal>
+        <div>
+          <Reveal direction="right">
+            <h2 className="text-3xl font-semibold sm:text-4xl">{site.workBestWith.heading}</h2>
+          </Reveal>
+          <Bullets items={site.workBestWith.items} direction="right" />
+        </div>
+      </section>
 
-      <section className="container-page py-20">
-        <FadeIn>
-          <p className="eyebrow">What we do</p>
-          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Where we help most</h2>
-        </FadeIn>
-        <Stagger className="mt-12 grid gap-8 sm:grid-cols-2">
-          {site.services.map((s) => (
-            <StaggerItem key={s.title}>
-              <HoverLift className="h-full overflow-hidden rounded-xl border border-line">
-                {s.image && (
-                  <div className="relative aspect-[16/9]">
+      {/* Our approach */}
+      <section className="bg-surface">
+        <div className="container-page grid items-center gap-12 py-20 lg:grid-cols-2">
+          <div className="lg:order-2">
+            <Reveal direction="right">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+                <Image
+                  src={site.approach.image.src}
+                  alt={site.approach.image.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            </Reveal>
+          </div>
+          <div className="lg:order-1">
+            <Reveal direction="left">
+              <h2 className="text-3xl font-semibold sm:text-4xl">{site.approach.heading}</h2>
+            </Reveal>
+            <Bullets items={site.approach.items} direction="left" />
+          </div>
+        </div>
+      </section>
+
+      {/* Partner / credential carousel */}
+      <section className="border-y border-line py-14">
+        <PartnerCarousel partners={site.partners} />
+      </section>
+
+      {/* Services */}
+      <section id="services" className="container-page scroll-mt-24 py-20">
+        <Reveal direction="up">
+          <h2 className="text-3xl font-semibold sm:text-4xl">{site.services.heading}</h2>
+          <p className="mt-5 max-w-3xl text-lg text-muted">{site.services.intro}</p>
+        </Reveal>
+
+        <div className="mt-14 space-y-14">
+          {site.services.items.map((service, i) => (
+            <Reveal key={service.title} direction={i % 2 === 0 ? "left" : "right"}>
+              <HoverLift className="overflow-hidden rounded-xl border border-line bg-white">
+                <div className="grid gap-0 lg:grid-cols-2">
+                  <div className={`relative min-h-64 ${i % 2 === 0 ? "" : "lg:order-2"}`}>
                     <Image
-                      src={s.image.src}
-                      alt={s.image.alt}
+                      src={service.image.src}
+                      alt={service.image.alt}
                       fill
-                      sizes="(max-width: 640px) 100vw, 50vw"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                       className="object-cover"
                     />
                   </div>
-                )}
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold">{s.title}</h3>
-                  <p className="mt-3 text-muted">{s.body}</p>
+                  <div className="p-8 lg:p-10">
+                    <h3 className="text-2xl font-semibold">{service.title}</h3>
+                    <p className="mt-2 text-lg font-medium text-brand">{service.subtitle}</p>
+                    <p className="mt-4 text-muted">{service.body}</p>
+                    <p className="mt-6 text-sm font-semibold uppercase tracking-wide">Includes:</p>
+                    <ul className="mt-3 space-y-2">
+                      {service.includes.map((item) => (
+                        <li key={item} className="flex gap-3 text-muted">
+                          <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </HoverLift>
-            </StaggerItem>
+            </Reveal>
           ))}
-        </Stagger>
+        </div>
       </section>
 
-      {site.proof.length > 0 && (
-        <section className="border-y border-line bg-surface">
-          <Stagger className="container-page grid gap-10 py-16 sm:grid-cols-3">
-            {site.proof.map((p) => (
-              <StaggerItem key={p.label}>
-                <CountUp
-                  value={p.stat}
-                  className="font-display text-4xl font-semibold text-brand"
-                />
-                <p className="mt-2 text-sm text-muted">{p.label}</p>
+      {/* Mission */}
+      <section className="bg-brand-ink text-white">
+        <Reveal direction="zoom" className="container-page py-20 text-center">
+          <h2 className="text-3xl font-semibold sm:text-4xl">{site.mission.heading}</h2>
+          <p className="mx-auto mt-6 max-w-3xl text-xl text-white/85">{site.mission.body}</p>
+        </Reveal>
+      </section>
+
+      {/* About */}
+      <section id="about" className="container-page grid scroll-mt-24 items-center gap-12 py-20 lg:grid-cols-2">
+        <Reveal direction="left">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+            <Image
+              src={site.about.image.src}
+              alt={site.about.image.alt}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+        </Reveal>
+        <div>
+          <Reveal direction="right">
+            <h2 className="text-3xl font-semibold sm:text-4xl">{site.about.heading}</h2>
+            <p className="mt-4 text-xl font-medium text-brand">{site.about.lead}</p>
+          </Reveal>
+          <Stagger className="mt-6 space-y-4 text-muted">
+            {site.about.paragraphs.map((p) => (
+              <StaggerItem key={p} direction="right">
+                <p>{p}</p>
               </StaggerItem>
             ))}
           </Stagger>
-        </section>
-      )}
+        </div>
+      </section>
 
-      <section className="container-page py-20">
-        <FadeIn>
-          <div className="rounded-xl bg-gradient-to-r from-brand-orange via-brand to-brand-purple px-8 py-14 text-center text-white">
-            <h2 className="text-3xl font-semibold">Let&rsquo;s connect people to what they need.</h2>
-            <p className="mx-auto mt-4 max-w-xl text-white/85">
-              Tell us what you&rsquo;re working on and we&rsquo;ll tell you whether we can help.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Link href="/book" className="btn bg-white text-brand-deep hover:bg-white/90">
-                Book a consultation
-              </Link>
-              <Link
-                href="/contact"
-                className="btn border border-white/50 text-white hover:bg-white/10"
-              >
-                Send a message
-              </Link>
+      {/* Contact */}
+      <section id="contact" className="scroll-mt-24 bg-surface">
+        <div className="container-page grid gap-12 py-20 lg:grid-cols-2">
+          <Reveal direction="left">
+            <h2 className="text-3xl font-semibold sm:text-4xl">{site.contactSection.heading}</h2>
+            <dl className="mt-8 space-y-6">
+              <div>
+                <dt className="text-sm font-semibold uppercase tracking-wide">Email</dt>
+                <dd className="mt-1">
+                  <a className="text-brand hover:underline" href={`mailto:${site.contact.email}`}>
+                    {site.contact.email}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm font-semibold uppercase tracking-wide">Office Number</dt>
+                <dd className="mt-1">
+                  <a
+                    className="text-brand hover:underline"
+                    href={`tel:+1${site.contact.phone.replace(/\D/g, "")}`}
+                  >
+                    {site.contact.phone}
+                  </a>
+                </dd>
+              </div>
+            </dl>
+          </Reveal>
+
+          <Reveal direction="right">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.16em]">
+              {site.contactSection.formHeading}
+            </h3>
+            <div className="mt-6">
+              <ContactForm />
             </div>
-          </div>
-        </FadeIn>
+          </Reveal>
+        </div>
       </section>
     </>
   );
