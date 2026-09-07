@@ -5,7 +5,7 @@ import { site } from "@/content/site";
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white/90 backdrop-blur">
-      <div className="container-page flex h-20 items-center justify-between gap-6">
+      <div className="container-page flex h-28 items-center justify-between gap-6">
         <Link href="/" aria-label={`${site.name} — home`} className="flex items-center">
           <Image
             src={site.logo.src}
@@ -13,7 +13,7 @@ export function Header() {
             width={900}
             height={450}
             priority
-            className="h-12 w-auto"
+            className="h-16 w-auto sm:h-20"
           />
         </Link>
 

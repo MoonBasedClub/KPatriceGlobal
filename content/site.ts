@@ -7,6 +7,8 @@
 
 /** The booking route, matching the path the current site already uses. */
 const BOOKING_PATH = "/appointment-booking-page";
+/** Hero CTAs scroll to the calendar embedded on the homepage. */
+const BOOKING_ANCHOR = "#contact";
 
 export const site = {
   name: "Kpatrice Global Solutions",
@@ -24,8 +26,6 @@ export const site = {
     // Publicly listed on the live site.
     email: "info@kpatrice.com",
     phone: "561.507.0240",
-    // Contact-form submissions are delivered here (see CONTACT_TO_EMAIL).
-    formRecipient: "keisha@kpatrice.com",
   },
 
   social: [
@@ -45,11 +45,11 @@ export const site = {
     eyebrow: "Strategic Operations & Growth Advisory",
     heading: "For organizations ready to execute - not just plan.",
     body: "Stop reacting to growth challenges. Start aligning strategy, systems, and partnerships so your organization can move forward with clarity and confidence.",
-    primaryCta: { label: "Schedule a Strategy Clarity Call", href: BOOKING_PATH },
+    primaryCta: { label: "Schedule a Strategy Clarity Call", href: BOOKING_ANCHOR },
     image: { src: "/images/hero.jpg", alt: "A professional reviewing work on a tablet" },
   },
 
-  bookingCta: { label: "Book a Free Consultation!", href: BOOKING_PATH },
+  bookingCta: { label: "Book a Free Consultation!", href: BOOKING_ANCHOR },
 
   booking: {
     /** Path kept identical to the current site so existing links keep working. */
@@ -180,8 +180,8 @@ export const site = {
   },
 
   contactSection: {
-    heading: "Contact Us",
-    formHeading: "SEND US A MESSAGE",
+    heading: "Book a Consultation",
+    body: "Pick a time that works for you — or reach out directly.",
   },
 
   copyright: "Copyright © 2024 Kpatrice Global Solutions. All rights reserved",

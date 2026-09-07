@@ -3,7 +3,7 @@ import Link from "next/link";
 import { site } from "@/content/site";
 import { Reveal, HeroReveal, Stagger, StaggerItem, HoverLift } from "@/components/motion";
 import { PartnerCarousel } from "@/components/PartnerCarousel";
-import { ContactForm } from "@/components/ContactForm";
+import { BookingEmbed } from "@/components/BookingEmbed";
 
 function Cta({ label, href, className }: { label: string; href: string; className: string }) {
   // Same tab, matching the current site's booking hand-off.
@@ -117,7 +117,7 @@ export default function HomePage() {
       </section>
 
       {/* Services */}
-      <section id="services" className="container-page scroll-mt-24 py-20">
+      <section id="services" className="container-page scroll-mt-32 py-20">
         <Reveal direction="up">
           <h2 className="text-3xl font-semibold sm:text-4xl">{site.services.heading}</h2>
           <p className="mt-5 max-w-3xl text-lg text-muted">{site.services.intro}</p>
@@ -167,7 +167,7 @@ export default function HomePage() {
       </section>
 
       {/* About */}
-      <section id="about" className="container-page grid scroll-mt-24 items-center gap-12 py-20 lg:grid-cols-2">
+      <section id="about" className="container-page grid scroll-mt-32 items-center gap-12 py-20 lg:grid-cols-2">
         <Reveal direction="left">
           <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
             <Image
@@ -194,40 +194,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Contact */}
-      <section id="contact" className="scroll-mt-24 bg-surface">
-        <div className="container-page grid gap-12 py-20 lg:grid-cols-2">
-          <Reveal direction="left">
+      {/* Contact — the calendar is booked directly here, no form in between. */}
+      <section id="contact" className="scroll-mt-32 bg-surface">
+        <div className="container-page py-20">
+          <Reveal direction="up" className="text-center">
             <h2 className="text-3xl font-semibold sm:text-4xl">{site.contactSection.heading}</h2>
-            <dl className="mt-8 space-y-6">
-              <div>
-                <dt className="text-sm font-semibold uppercase tracking-wide">Email</dt>
-                <dd className="mt-1">
-                  <a className="text-brand hover:underline" href={`mailto:${site.contact.email}`}>
-                    {site.contact.email}
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-sm font-semibold uppercase tracking-wide">Office Number</dt>
-                <dd className="mt-1">
-                  <a
-                    className="text-brand hover:underline"
-                    href={`tel:+1${site.contact.phone.replace(/\D/g, "")}`}
-                  >
-                    {site.contact.phone}
-                  </a>
-                </dd>
-              </div>
-            </dl>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted">
+              {site.contactSection.body}
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm">
+              <a className="text-brand hover:underline" href={`mailto:${site.contact.email}`}>
+                {site.contact.email}
+              </a>
+              <a
+                className="text-brand hover:underline"
+                href={`tel:+1${site.contact.phone.replace(/\D/g, "")}`}
+              >
+                {site.contact.phone}
+              </a>
+            </div>
           </Reveal>
 
-          <Reveal direction="right">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.16em]">
-              {site.contactSection.formHeading}
-            </h3>
-            <div className="mt-6">
-              <ContactForm />
+          <Reveal direction="up" delay={0.1}>
+            <div className="mt-12 overflow-hidden rounded-xl border border-line bg-white">
+              <BookingEmbed
+                calendarId={site.booking.calendarId}
+                title={site.booking.calendarName}
+              />
             </div>
           </Reveal>
         </div>

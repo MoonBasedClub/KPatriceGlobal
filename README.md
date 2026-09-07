@@ -17,33 +17,24 @@ npm run dev                  # http://localhost:3000
 
 ## Environment variables
 
-Set these locally in `.env.local` and in the Vercel project settings.
+The site needs none to run — the calendar ID is committed.
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `RESEND_API_KEY` | for the contact form | API key from [resend.com](https://resend.com) |
-| `CONTACT_TO_EMAIL` | for the contact form | Inbox that receives enquiries — `keisha@kpatrice.com` |
-| `CONTACT_FROM_EMAIL` | for the contact form | Sender on a **Resend-verified domain** |
-| `NEXT_PUBLIC_BOOKING_CALENDAR_ID` | no — has a default | Overrides the GoHighLevel calendar on the booking page |
-
-**Before the form will send**, add your sending domain in the Resend dashboard
-under **Domains → Add Domain** and publish the DNS records it gives you. Resend
-refuses to send from an unverified domain, so `CONTACT_FROM_EMAIL` must sit on a
-domain you have completed that step for. The recipient needs no verification.
-
-Without the Resend keys the form returns a clear "not configured yet" message
-rather than failing silently. Scheduling needs no configuration — the calendar
-ID is committed.
+| `NEXT_PUBLIC_BOOKING_CALENDAR_ID` | no — has a default | Points the embed at a different GoHighLevel calendar |
 
 ## Scheduling flow
 
 The calendar is **GoHighLevel's, not Calendly** — "Keisha Smith's Personal
-Calendar", embedded from `api.leadconnectorhq.com/widget/booking/<id>`.
+Calendar", embedded from `api.leadconnectorhq.com/widget/booking/<id>` as an
+iframe.
 
-It lives at `/appointment-booking-page`, the same path the current site uses, so
-existing links and any search results keep working. The hero CTAs link there and
-submitting the contact form navigates there in the same tab — matching the
-current site's behaviour.
+It is embedded directly in the `#contact` section at the bottom of the
+homepage, and the hero CTAs scroll to it. There is no contact form: visitors
+book straight from the calendar, and email and phone are listed beside it.
+
+The same calendar is also served at `/appointment-booking-page`, the path the
+previous site used, so existing links and search results keep resolving.
 
 The widget reports its own height through GoHighLevel's `form_embed.js`, so the
 iframe grows with the content instead of scrolling internally.
@@ -80,12 +71,10 @@ the preference is unknown during server render.
 app/
   page.tsx            the whole site (hero → services → mission → about → contact)
   appointment-booking-page/  the booking calendar
-  api/contact/        form handler — validates, honeypots, sends via Resend
   icon.png            favicon, generated from the logo mark
 components/
   motion.tsx          animation primitives
   PartnerCarousel.tsx logo marquee
-  ContactForm.tsx     contact form; navigates to the booking page on success
   BookingEmbed.tsx    GoHighLevel booking calendar iframe
   Header / Footer
 content/site.ts       all site copy
