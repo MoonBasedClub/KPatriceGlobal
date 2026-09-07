@@ -44,9 +44,8 @@ export default function HomePage() {
               <p className="mt-6 max-w-xl text-lg text-muted">{site.hero.body}</p>
             </HeroReveal>
             <HeroReveal direction="zoom" delay={0.45}>
-              <div className="mt-10 flex flex-wrap gap-3">
-                <Cta label={site.hero.primaryCta.label} href={site.hero.primaryCta.href} className="btn-primary" />
-                <Cta label={site.bookingCta.label} href={site.bookingCta.href} className="btn-secondary" />
+              <div className="mt-10">
+                <Cta label={site.bookingCta.label} href={site.bookingCta.href} className="btn-primary" />
               </div>
             </HeroReveal>
           </div>

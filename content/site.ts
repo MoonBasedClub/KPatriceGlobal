@@ -45,7 +45,6 @@ export const site = {
     eyebrow: "Strategic Operations & Growth Advisory",
     heading: "For organizations ready to execute - not just plan.",
     body: "Stop reacting to growth challenges. Start aligning strategy, systems, and partnerships so your organization can move forward with clarity and confidence.",
-    primaryCta: { label: "Schedule a Strategy Clarity Call", href: BOOKING_ANCHOR },
     image: { src: "/images/hero.jpg", alt: "A professional reviewing work on a tablet" },
   },
 
