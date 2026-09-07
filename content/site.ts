@@ -5,6 +5,9 @@
  * LeadConnector funnel) along with its images, palette and section order.
  */
 
+/** The booking route, matching the path the current site already uses. */
+const BOOKING_PATH = "/appointment-booking-page";
+
 export const site = {
   name: "Kpatrice Global Solutions",
   tagline: "Strategic Operations & Growth Advisory",
@@ -40,11 +43,25 @@ export const site = {
     eyebrow: "Strategic Operations & Growth Advisory",
     heading: "For organizations ready to execute - not just plan.",
     body: "Stop reacting to growth challenges. Start aligning strategy, systems, and partnerships so your organization can move forward with clarity and confidence.",
-    primaryCta: { label: "Schedule a Strategy Clarity Call", href: "#contact" },
+    primaryCta: { label: "Schedule a Strategy Clarity Call", href: BOOKING_PATH },
     image: { src: "/images/hero.jpg", alt: "A professional reviewing work on a tablet" },
   },
 
-  bookingCta: { label: "Book a Free Consultation!", href: "#contact" },
+  bookingCta: { label: "Book a Free Consultation!", href: BOOKING_PATH },
+
+  booking: {
+    /** Path kept identical to the current site so existing links keep working. */
+    path: BOOKING_PATH,
+    /**
+     * GoHighLevel calendar behind the live site's booking page —
+     * "Keisha Smith's Personal Calendar". Override with
+     * NEXT_PUBLIC_BOOKING_CALENDAR_ID to point at a different calendar.
+     */
+    calendarId: process.env.NEXT_PUBLIC_BOOKING_CALENDAR_ID || "O56KTncw7NcR9Q5uzM6n",
+    calendarName: "Keisha Smith's Personal Calendar",
+    heading: "Book an appointment",
+    body: "Welcome to my scheduling page. Please follow the instructions to add an event to my calendar.",
+  },
 
   workBestWith: {
     heading: "Who We Work Best With",

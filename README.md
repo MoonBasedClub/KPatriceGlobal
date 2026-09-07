@@ -24,26 +24,29 @@ Set these locally in `.env.local` and in the Vercel project settings.
 | `RESEND_API_KEY` | for the contact form | API key from [resend.com](https://resend.com) |
 | `CONTACT_TO_EMAIL` | for the contact form | Inbox that receives enquiries — `keisha@kpatrice.com` |
 | `CONTACT_FROM_EMAIL` | for the contact form | Sender on a **Resend-verified domain** |
-| `NEXT_PUBLIC_CALENDLY_URL` | for scheduling | Your Calendly event link |
+| `NEXT_PUBLIC_BOOKING_CALENDAR_ID` | no — has a default | Overrides the GoHighLevel calendar on the booking page |
 
 **Before the form will send**, add your sending domain in the Resend dashboard
 under **Domains → Add Domain** and publish the DNS records it gives you. Resend
 refuses to send from an unverified domain, so `CONTACT_FROM_EMAIL` must sit on a
 domain you have completed that step for. The recipient needs no verification.
 
-Both features degrade gracefully: without the Resend keys the form returns a
-clear "not configured yet" message rather than failing silently, and without a
-Calendly URL the CTAs scroll to the contact form, which simply confirms the send.
+Without the Resend keys the form returns a clear "not configured yet" message
+rather than failing silently. Scheduling needs no configuration — the calendar
+ID is committed.
 
 ## Scheduling flow
 
-This mirrors the current GoHighLevel site: submitting the contact form reveals
-the Calendly calendar inline, prefilled with the name and email just entered, so
-the visitor is not asked for them twice. The hero CTAs open the same link
-directly.
+The calendar is **GoHighLevel's, not Calendly** — "Keisha Smith's Personal
+Calendar", embedded from `api.leadconnectorhq.com/widget/booking/<id>`.
 
-If Calendly's widget script is blocked — ad blockers commonly do this — the
-embed falls back to a plain link to the same calendar.
+It lives at `/appointment-booking-page`, the same path the current site uses, so
+existing links and any search results keep working. The hero CTAs link there and
+submitting the contact form navigates there in the same tab — matching the
+current site's behaviour.
+
+The widget reports its own height through GoHighLevel's `form_embed.js`, so the
+iframe grows with the content instead of scrolling internally.
 
 ## Editing content
 
@@ -76,13 +79,14 @@ the preference is unknown during server render.
 ```
 app/
   page.tsx            the whole site (hero → services → mission → about → contact)
+  appointment-booking-page/  the booking calendar
   api/contact/        form handler — validates, honeypots, sends via Resend
   icon.png            favicon, generated from the logo mark
 components/
   motion.tsx          animation primitives
   PartnerCarousel.tsx logo marquee
-  ContactForm.tsx     contact form, reveals the calendar on success
-  CalendlyEmbed.tsx   inline Calendly widget with prefill
+  ContactForm.tsx     contact form; navigates to the booking page on success
+  BookingEmbed.tsx    GoHighLevel booking calendar iframe
   Header / Footer
 content/site.ts       all site copy
 public/images/        assets from the live site (see its README)

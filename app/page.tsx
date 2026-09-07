@@ -1,26 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 import { site } from "@/content/site";
 import { Reveal, HeroReveal, Stagger, StaggerItem, HoverLift } from "@/components/motion";
 import { PartnerCarousel } from "@/components/PartnerCarousel";
 import { ContactForm } from "@/components/ContactForm";
 
-/**
- * Calendly link, when configured. The hero CTAs open it directly; without it
- * they scroll to the contact form, which reveals the calendar on submit.
- */
-const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || "";
-
-function Cta({ label, className }: { label: string; className: string }) {
-  const href = calendlyUrl || "#contact";
-  const external = Boolean(calendlyUrl);
+function Cta({ label, href, className }: { label: string; href: string; className: string }) {
+  // Same tab, matching the current site's booking hand-off.
   return (
-    <a
-      href={href}
-      className={className}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-    >
+    <Link href={href} className={className}>
       {label}
-    </a>
+    </Link>
   );
 }
 
@@ -55,8 +45,8 @@ export default function HomePage() {
             </HeroReveal>
             <HeroReveal direction="zoom" delay={0.45}>
               <div className="mt-10 flex flex-wrap gap-3">
-                <Cta label={site.hero.primaryCta.label} className="btn-primary" />
-                <Cta label={site.bookingCta.label} className="btn-secondary" />
+                <Cta label={site.hero.primaryCta.label} href={site.hero.primaryCta.href} className="btn-primary" />
+                <Cta label={site.bookingCta.label} href={site.bookingCta.href} className="btn-secondary" />
               </div>
             </HeroReveal>
           </div>

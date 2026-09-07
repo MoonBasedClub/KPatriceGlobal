@@ -1,21 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { CalendlyEmbed } from "@/components/CalendlyEmbed";
+import { site } from "@/content/site";
 
-type Submitted = { name: string; email: string };
-type Status =
-  | { kind: "idle" | "sending" }
-  | { kind: "error"; message: string }
-  | { kind: "ok"; message: string; submitted: Submitted };
-
-/** Set in the Vercel project; empty means "no calendar configured". */
-const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || "";
+type Status = { kind: "idle" | "sending" | "ok" } | { kind: "error"; message: string };
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const reduced = useReducedMotion();
+  const router = useRouter();
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,37 +30,17 @@ export function ContactForm() {
         setStatus({ kind: "error", message: body.error ?? "Something went wrong." });
         return;
       }
+
       form.reset();
-      setStatus({
-        kind: "ok",
-        message: CALENDLY_URL
-          ? "Thanks — now pick a time that works for you."
-          : "Thanks — your message is on its way.",
-        submitted: { name: data.name ?? "", email: data.email ?? "" },
-      });
+      setStatus({ kind: "ok" });
+      // Same-tab hand-off to the booking page, as the current site does.
+      router.push(site.booking.path);
     } catch {
       setStatus({ kind: "error", message: "Network error. Please try again." });
     }
   }
 
-  // Message sent and a calendar is configured: hand the visitor straight to it,
-  // which is how the current GoHighLevel site behaves.
-  if (status.kind === "ok" && CALENDLY_URL) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: reduced ? 0 : 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: reduced ? 0.2 : 0.5, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <p role="status" className="text-sm font-medium text-brand">
-          {status.message}
-        </p>
-        <div className="mt-4">
-          <CalendlyEmbed url={CALENDLY_URL} prefill={status.submitted} />
-        </div>
-      </motion.div>
-    );
-  }
+  const busy = status.kind === "sending" || status.kind === "ok";
 
   return (
     <form onSubmit={onSubmit} className="max-w-xl space-y-5">
@@ -91,18 +66,18 @@ export function ContactForm() {
       <motion.button
         className="btn-primary disabled:opacity-70"
         type="submit"
-        disabled={status.kind === "sending"}
-        whileHover={reduced || status.kind === "sending" ? undefined : { scale: 1.02 }}
+        disabled={busy}
+        whileHover={reduced || busy ? undefined : { scale: 1.02 }}
         whileTap={reduced ? undefined : { scale: 0.98 }}
         transition={{ duration: 0.15 }}
       >
-        {status.kind === "sending" ? "Sending…" : "Send"}
+        {status.kind === "sending" ? "Sending…" : status.kind === "ok" ? "Opening calendar…" : "Send"}
       </motion.button>
 
       <AnimatePresence mode="wait">
         {(status.kind === "ok" || status.kind === "error") && (
           <motion.p
-            key={status.message}
+            key={status.kind}
             role="status"
             initial={{ opacity: 0, y: reduced ? 0 : -6 }}
             animate={{ opacity: 1, y: 0 }}
@@ -110,7 +85,9 @@ export function ContactForm() {
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className={status.kind === "ok" ? "text-sm text-brand" : "text-sm text-red-600"}
           >
-            {status.message}
+            {status.kind === "error"
+              ? status.message
+              : "Thanks — taking you to the calendar to pick a time."}
           </motion.p>
         )}
       </AnimatePresence>
