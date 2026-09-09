@@ -23,7 +23,9 @@ export function Footer() {
             {site.contact.phone}
           </a>
         </div>
-        <p className="text-xs text-muted">{site.copyright}</p>
+        <p className="text-xs text-muted">
+          Copyright &copy; {new Date().getFullYear()} {site.copyright}
+        </p>
       </div>
     </footer>
   );

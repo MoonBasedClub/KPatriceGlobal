@@ -1,7 +1,16 @@
 # KPatriceGlobal
 
-Recreation of [kpatriceglobal.com](https://kpatriceglobal.com) — Next.js (App
-Router) + Tailwind + Motion, deployed on Vercel.
+The Kpatrice Global Solutions site — Next.js (App Router) + Tailwind + Motion,
+deployed on Vercel and served at **[kpatrice.com](https://kpatrice.com)**.
+
+> **Domains.** `kpatrice.com` is canonical: it is where this app is served and
+> what every canonical tag, sitemap entry and share card points at. The older
+> `kpatriceglobal.com` still serves the previous GoHighLevel funnel from
+> Cloudflare and is *not* this app. Until it is redirected to `kpatrice.com`,
+> the two are duplicate content competing in search — see "Handoff" below.
+
+Originally recreated from that GoHighLevel funnel, so this is a single page with
+anchor navigation. Copy, imagery, palette and animations are taken from it.
 
 The original is a single-page GoHighLevel funnel, so this is a single page with
 anchor navigation. Copy, imagery, palette and animations are taken from the live
@@ -87,6 +96,52 @@ public/images/        assets from the live site (see its README)
    detected automatically — no build settings to change.
 2. Add the environment variables above under **Settings → Environment Variables**.
 3. Add the domain under **Settings → Domains** and point DNS at Vercel.
+
+## SEO
+
+Search and social metadata is derived from `content/site.ts` — change the copy
+there and every surface below follows.
+
+| Surface | Source |
+| --- | --- |
+| Titles, description, canonical, Open Graph, Twitter card | `app/layout.tsx` |
+| Share image (1200x630, generated at build) | `app/opengraph-image.tsx` |
+| `ProfessionalService` + `BreadcrumbList` structured data | `components/JsonLd.tsx` |
+| `sitemap.xml` | `app/sitemap.ts` |
+| `robots.txt` | `app/robots.ts` |
+| Web app manifest | `app/manifest.ts` |
+| Security headers | `next.config.mjs` |
+
+`site.url` feeds all absolute URLs. If the domain ever changes, change it there
+and nowhere else.
+
+`app/sitemap.ts` dates entries from a `LAST_CONTENT_CHANGE` constant rather than
+the build clock — bump it when the copy actually changes, so `lastmod` stays
+meaningful to crawlers.
+
+## Handoff
+
+Still outstanding, each needing an account or a decision rather than code:
+
+- [ ] **Redirect `kpatriceglobal.com` → `kpatrice.com`** (301, at Cloudflare),
+      including `/appointment-booking-page`. Until then the old funnel competes
+      with this site for the same searches and splits its ranking signals.
+      `www.kpatriceglobal.com` currently returns a 502.
+- [ ] **Google Search Console** — verify `kpatrice.com`, submit
+      `https://kpatrice.com/sitemap.xml`, and use Change of Address once the
+      redirect above is live.
+- [ ] **Bing Webmaster Tools** — verify and submit the same sitemap.
+- [ ] **Google Business Profile** — the single biggest local-search lever.
+      Needs a real business address, which the site does not currently list.
+      Once it exists, add it to `site.seo` and as a `PostalAddress` in
+      `components/JsonLd.tsx`.
+- [ ] **Analytics** — nothing is installed. `@vercel/analytics` is a one-line
+      add; GA4 needs a property ID. Pick one before launch or the first weeks
+      of traffic are unmeasured.
+- [ ] **Social profile URLs** — `site.social` has empty `href`s. Filling them
+      in also populates `sameAs` in the structured data, which is how engines
+      tie this site to those profiles.
+- [ ] **Confirm the public email** — the site lists `info@kpatrice.com`.
 
 ## Scripts
 

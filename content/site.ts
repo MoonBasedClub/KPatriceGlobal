@@ -15,7 +15,43 @@ export const site = {
   tagline: "Strategic Operations & Growth Advisory",
   description:
     "Kpatrice Global Solutions serves as a Strategic Operations & Growth Advisor to small and mid-sized businesses and workforce development organizations navigating growth and change.",
-  url: "https://kpatriceglobal.com",
+  /**
+   * Canonical domain — the one the new site is actually served from, and the
+   * one every canonical tag, sitemap entry and share card points at.
+   *
+   * Note this is kpatrice.com, NOT kpatriceglobal.com: the latter still serves
+   * the old GoHighLevel funnel. Pointing canonicals there would tell search
+   * engines the old funnel is the authoritative copy of this content.
+   */
+  url: "https://kpatrice.com",
+
+  seo: {
+    /**
+     * The legal entity behind the site, used in structured data. Search
+     * engines treat this as the organization's formal name, distinct from the
+     * brand name shown on the page.
+     */
+    legalName: "Kpatrice Global Solutions",
+    /**
+     * Terms the site should rank for. These do not affect ranking directly —
+     * no engine has read the keywords meta since 2009 — but they keep the
+     * intended search intent written down next to the copy that has to earn
+     * it, and they seed the structured data below.
+     */
+    services: [
+      "Strategic Planning",
+      "Operational Efficiency",
+      "Business Diagnostics",
+      "Workforce Development Consulting",
+      "Business Process Improvement",
+    ],
+    /**
+     * Where the business takes clients. Kept broad because the site lists no
+     * street address; add a real postal address here and in the structured
+     * data once one is available, since local search results depend on it.
+     */
+    areaServed: "United States",
+  },
 
   logo: {
     src: "/images/logo.png",
@@ -183,7 +219,8 @@ export const site = {
     body: "Pick a time that works for you — or reach out directly.",
   },
 
-  copyright: "Copyright © 2024 Kpatrice Global Solutions. All rights reserved",
+  /** Rendered with the current year prepended by the footer. */
+  copyright: "Kpatrice Global Solutions. All rights reserved.",
 };
 
 export type Site = typeof site;

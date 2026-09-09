@@ -2,10 +2,26 @@ import Image from "next/image";
 import { site } from "@/content/site";
 import { BookingEmbed } from "@/components/BookingEmbed";
 import { Reveal } from "@/components/motion";
+import { BreadcrumbJsonLd } from "@/components/JsonLd";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: site.booking.heading,
-  description: `Schedule a call with ${site.name}.`,
+const title = site.booking.heading;
+const description = `Schedule a free consultation with ${site.booking.host.name} of ${site.name} — ${site.tagline.toLowerCase()}.`;
+
+export const metadata: Metadata = {
+  title,
+  description,
+  // This path is inherited from the previous site, so it already has inbound
+  // links and search-result presence worth keeping pointed here.
+  alternates: { canonical: site.booking.path },
+  openGraph: {
+    title: `${title} — ${site.name}`,
+    description,
+    url: `${site.url}${site.booking.path}`,
+    siteName: site.name,
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", title: `${title} — ${site.name}`, description },
 };
 
 export default function AppointmentBookingPage() {
@@ -13,6 +29,7 @@ export default function AppointmentBookingPage() {
 
   return (
     <section className="container-page py-16">
+      <BreadcrumbJsonLd name={title} path={site.booking.path} />
       <Reveal direction="up" className="text-center">
         <Image
           src={host.photo.src}
