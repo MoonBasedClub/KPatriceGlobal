@@ -1,11 +1,11 @@
 /**
  * Single source of truth for all site copy and imagery.
  *
- * Transcribed from the live site at kpatriceglobal.com (a GoHighLevel/
- * LeadConnector funnel) along with its images, palette and section order.
+ * Every string the site renders lives here, so copy changes never require
+ * touching a component.
  */
 
-/** The booking route, matching the path the current site already uses. */
+/** The booking route. */
 const BOOKING_PATH = "/appointment-booking-page";
 /** Hero CTAs scroll to the calendar embedded on the homepage. */
 const BOOKING_ANCHOR = "#contact";
@@ -16,12 +16,9 @@ export const site = {
   description:
     "Kpatrice Global Solutions serves as a Strategic Operations & Growth Advisor to small and mid-sized businesses and workforce development organizations navigating growth and change.",
   /**
-   * Canonical domain — the one the new site is actually served from, and the
-   * one every canonical tag, sitemap entry and share card points at.
-   *
-   * Note this is kpatrice.com, NOT kpatriceglobal.com: the latter still serves
-   * the old GoHighLevel funnel. Pointing canonicals there would tell search
-   * engines the old funnel is the authoritative copy of this content.
+   * Canonical domain. Every absolute URL on the site — canonical tags, sitemap
+   * entries, share cards, structured data — is derived from this, so it is the
+   * only place a domain change needs to be made.
    */
   url: "https://kpatrice.com",
 
@@ -59,13 +56,15 @@ export const site = {
   },
 
   contact: {
-    // Publicly listed on the live site.
     email: "info@kpatrice.com",
     phone: "561.507.0240",
   },
 
   social: [
-    { label: "Facebook", href: "" }, // TODO: live site links these icons to the homepage; add real URLs.
+    // TODO: add real profile URLs. These also populate `sameAs` in the
+    // structured data, which is how search engines tie the site to the
+    // profiles, so a blank href is left out rather than guessed at.
+    { label: "Facebook", href: "" },
     { label: "LinkedIn", href: "" },
   ] as { label: string; href: string }[],
 
@@ -87,7 +86,6 @@ export const site = {
   bookingCta: { label: "Book a Free Consultation!", href: BOOKING_ANCHOR },
 
   booking: {
-    /** Path kept identical to the current site so existing links keep working. */
     path: BOOKING_PATH,
     /**
      * GoHighLevel calendar behind the live site's booking page —
@@ -130,7 +128,7 @@ export const site = {
     image: { src: "/images/our-approach.webp", alt: "A team working through a plan" },
   },
 
-  /** Logos in the marquee, in the order the live site shows them. */
+  /** Logos in the marquee, in display order. */
   partners: [
     {
       name: "Miami-Dade County Public Schools",

@@ -1,11 +1,10 @@
 # Images
 
-All assets here were downloaded from the live site at kpatriceglobal.com and are
-the real ones, not placeholders.
+These are the real brand assets, not placeholders.
 
 | File | Used in |
 | --- | --- |
-| `logo.jpg` | Header, footer, favicon |
+| `logo.png` | Header, footer, favicon, share card |
 | `hero.jpg` | Hero section |
 | `who-we-work-with.jpg` | "Who We Work Best With" |
 | `our-approach.webp` | "Our Approach" |
@@ -15,12 +14,12 @@ the real ones, not placeholders.
 | `about.jpg` | About Us |
 | `partners/*` | The logo marquee (5 logos) |
 
-Extensions reflect the actual encoding: the live site serves several of these
-WebP-converted through its CDN regardless of the original filename.
+Extensions reflect the actual encoding rather than the original filename —
+several of these are WebP.
 
 ## Nice to have
 
-A transparent-background version of the logo. The current `logo.jpg` has a baked-in
-white rectangle, which is invisible against the white header but would show if a
-section behind it ever became coloured. A PNG or SVG with transparency would drop in
-as `logo.png` / `logo.svg` with a one-line change in `content/site.ts`.
+An SVG version of the logo. `logo.png` is transparent and 815x424, which is
+sharp enough everywhere it is currently used, but a vector would stay crisp at
+any size and shrink the header payload. It would drop in as `logo.svg` with a
+one-line change in `content/site.ts`.

@@ -3,18 +3,7 @@
 The Kpatrice Global Solutions site — Next.js (App Router) + Tailwind + Motion,
 deployed on Vercel and served at **[kpatrice.com](https://kpatrice.com)**.
 
-> **Domains.** `kpatrice.com` is canonical: it is where this app is served and
-> what every canonical tag, sitemap entry and share card points at. The older
-> `kpatriceglobal.com` still serves the previous GoHighLevel funnel from
-> Cloudflare and is *not* this app. Until it is redirected to `kpatrice.com`,
-> the two are duplicate content competing in search — see "Handoff" below.
-
-Originally recreated from that GoHighLevel funnel, so this is a single page with
-anchor navigation. Copy, imagery, palette and animations are taken from it.
-
-The original is a single-page GoHighLevel funnel, so this is a single page with
-anchor navigation. Copy, imagery, palette and animations are taken from the live
-site.
+It is a single page with anchor navigation, plus a standalone booking page.
 
 ## Getting started
 
@@ -92,10 +81,13 @@ public/images/        assets from the live site (see its README)
 
 ## Deploying to Vercel
 
-1. Import this repo at [vercel.com/new](https://vercel.com/new). Next.js is
-   detected automatically — no build settings to change.
-2. Add the environment variables above under **Settings → Environment Variables**.
-3. Add the domain under **Settings → Domains** and point DNS at Vercel.
+The repo is already linked to the Vercel project `k-patrice-global`, which
+deploys `main` automatically and serves `kpatrice.com` and `www.kpatrice.com`.
+
+For a fresh setup: import the repo at [vercel.com/new](https://vercel.com/new)
+(Next.js is detected automatically), set any environment variables above under
+**Settings → Environment Variables**, then add the domain under
+**Settings → Domains** and point DNS at Vercel.
 
 ## SEO
 
@@ -123,13 +115,9 @@ meaningful to crawlers.
 
 Still outstanding, each needing an account or a decision rather than code:
 
-- [ ] **Redirect `kpatriceglobal.com` → `kpatrice.com`** (301, at Cloudflare),
-      including `/appointment-booking-page`. Until then the old funnel competes
-      with this site for the same searches and splits its ranking signals.
-      `www.kpatriceglobal.com` currently returns a 502.
-- [ ] **Google Search Console** — verify `kpatrice.com`, submit
-      `https://kpatrice.com/sitemap.xml`, and use Change of Address once the
-      redirect above is live.
+- [ ] **Google Search Console** — verify `kpatrice.com` and submit
+      `https://kpatrice.com/sitemap.xml`. Nothing gets indexed on its own
+      schedule as fast as a submitted sitemap.
 - [ ] **Bing Webmaster Tools** — verify and submit the same sitemap.
 - [ ] **Google Business Profile** — the single biggest local-search lever.
       Needs a real business address, which the site does not currently list.
