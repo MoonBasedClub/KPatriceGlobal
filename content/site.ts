@@ -53,13 +53,10 @@ export const site = {
   booking: {
     /** Path kept identical to the current site so existing links keep working. */
     path: BOOKING_PATH,
-    /**
-     * GoHighLevel calendar behind the live site's booking page —
-     * "Keisha Smith's Personal Calendar". Override with
-     * NEXT_PUBLIC_BOOKING_CALENDAR_ID to point at a different calendar.
-     */
-    calendarId: process.env.NEXT_PUBLIC_BOOKING_CALENDAR_ID || "O56KTncw7NcR9Q5uzM6n",
-    calendarName: "Keisha Smith's Personal Calendar",
+    calendlyUrl:
+      process.env.NEXT_PUBLIC_CALENDLY_URL ||
+      "https://calendly.com/mikeysmediabusiness/30min?hide_event_type_details=1",
+    calendarName: "Calendly booking calendar",
     host: {
       name: "Keisha P Smith",
       photo: {

@@ -217,7 +217,7 @@ export default function HomePage() {
           <Reveal direction="up" delay={0.1}>
             <div className="mt-12 overflow-hidden rounded-xl border border-line bg-white">
               <BookingEmbed
-                calendarId={site.booking.calendarId}
+                calendlyUrl={site.booking.calendlyUrl}
                 title={site.booking.calendarName}
               />
             </div>

@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default function AppointmentBookingPage() {
-  const { host, body, calendarId, calendarName } = site.booking;
+  const { host, body, calendlyUrl, calendarName } = site.booking;
 
   return (
     <section className="container-page py-16">
@@ -29,7 +29,7 @@ export default function AppointmentBookingPage() {
 
       <Reveal direction="up" delay={0.1}>
         <div className="mt-10 overflow-hidden rounded-xl border border-line bg-white">
-          <BookingEmbed calendarId={calendarId} title={calendarName} />
+          <BookingEmbed calendlyUrl={calendlyUrl} title={calendarName} />
         </div>
       </Reveal>
     </section>

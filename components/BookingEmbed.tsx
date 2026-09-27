@@ -1,48 +1,79 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-/** GoHighLevel's iframe resizer — it posts the widget's height to the parent. */
-const RESIZER_SRC = "https://link.msgsndr.com/js/form_embed.js";
+const CALENDLY_WIDGET_SRC = "https://assets.calendly.com/assets/external/widget.js";
+const DEFAULT_CALENDLY_URL =
+  "https://calendly.com/mikeysmediabusiness/30min?hide_event_type_details=1";
 
-/**
- * Embeds the GoHighLevel booking calendar.
- *
- * The widget renders in an iframe and reports its own height through
- * form_embed.js, so the frame grows with the content instead of scrolling
- * internally. Loading the script once per page is enough — it binds to every
- * booking iframe present.
- */
+declare global {
+  interface Window {
+    Calendly?: {
+      initInlineWidget?: (options: { url: string; parentElement: HTMLElement }) => void;
+    };
+  }
+}
+
+function loadCalendlyWidget() {
+  const existing = document.querySelector<HTMLScriptElement>(
+    `script[src="${CALENDLY_WIDGET_SRC}"]`,
+  );
+
+  if (existing) {
+    return Promise.resolve();
+  }
+
+  return new Promise<void>((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = CALENDLY_WIDGET_SRC;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load Calendly widget"));
+    document.body.appendChild(script);
+  });
+}
+
+/** Embeds the Calendly inline scheduler. */
 export function BookingEmbed({
-  calendarId,
+  calendlyUrl = DEFAULT_CALENDLY_URL,
   title = "Booking calendar",
 }: {
-  calendarId: string;
+  calendlyUrl?: string;
   title?: string;
 }) {
-  useEffect(() => {
-    if (document.querySelector(`script[src="${RESIZER_SRC}"]`)) return;
-    const script = document.createElement("script");
-    script.src = RESIZER_SRC;
-    script.async = true;
-    document.body.appendChild(script);
-  }, []);
+  const widgetRef = useRef<HTMLDivElement>(null);
 
-  const src = `https://api.leadconnectorhq.com/widget/booking/${calendarId}`;
+  useEffect(() => {
+    let cancelled = false;
+
+    loadCalendlyWidget().then(() => {
+      const widget = widgetRef.current;
+      if (cancelled || !widget || !window.Calendly?.initInlineWidget) return;
+
+      widget.innerHTML = "";
+      window.Calendly.initInlineWidget({
+        url: calendlyUrl,
+        parentElement: widget,
+      });
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [calendlyUrl]);
 
   return (
     <div className="w-full">
-      <iframe
-        src={src}
-        id={calendarId}
+      <div
+        ref={widgetRef}
+        className="calendly-inline-widget"
+        data-url={calendlyUrl}
         title={title}
-        scrolling="no"
-        className="h-[46rem] w-full border-0"
+        style={{ minWidth: 320, height: 700 }}
       />
-      {/* If the iframe is blocked, the calendar is still one click away. */}
       <noscript>
-        <p className="text-sm text-muted">
-          <a className="text-brand underline" href={src}>
+        <p className="p-4 text-sm text-muted">
+          <a className="text-brand underline" href={calendlyUrl}>
             Open the booking calendar
           </a>
         </p>
