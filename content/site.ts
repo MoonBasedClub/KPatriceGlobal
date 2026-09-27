@@ -55,7 +55,7 @@ export const site = {
     path: BOOKING_PATH,
     calendlyUrl:
       process.env.NEXT_PUBLIC_CALENDLY_URL ||
-      "https://calendly.com/mikeysmediabusiness/30min?hide_event_type_details=1",
+      "https://calendly.com/keisha-kpatrice/30-mins-meeting?hide_event_type_details=1&hide_gdpr_banner=1",
     calendarName: "Calendly booking calendar",
     host: {
       name: "Keisha P Smith",

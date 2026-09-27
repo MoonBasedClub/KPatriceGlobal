@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 const CALENDLY_WIDGET_SRC = "https://assets.calendly.com/assets/external/widget.js";
 const DEFAULT_CALENDLY_URL =
-  "https://calendly.com/mikeysmediabusiness/30min?hide_event_type_details=1";
+  "https://calendly.com/keisha-kpatrice/30-mins-meeting?hide_event_type_details=1&hide_gdpr_banner=1";
 
 declare global {
   interface Window {
